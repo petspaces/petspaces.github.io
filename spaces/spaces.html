@@ -11,8 +11,8 @@
         padding: 0;
     }
     .container {
-        width: 80vw;
-        height: 80vw;
+        width: 50vw;
+        height: 50vw;
         border: 1px solid black;
 
         overflow: auto;
@@ -49,77 +49,21 @@
 </style>
 <body id="app">
 <div class="container">
-    <style>
-        .world-grid {
-            width: 100%;
-            height: 100%;
-            /*border: 1px solid pink;*/
-            display: grid;
-            grid-template-columns: repeat(24, ${(100 / this.size) + '%'}$);
-            grid-template-rows: repeat(24, ${(100 / this.size) + '%'}$);
-            /*grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;*/
-            grid-gap: 0px;
-            /*border: 1px solid black;*/
-            /*grid-auto-rows: minmax(12.4%, auto);*/
 
-        }
-
-        .tile {
-            border: 1px solid black;
-            display: inline-block;
-            /*width: 30%;*/
-            /*height: 100px;*/
-        }
-        .tile > .item {
-            width: 100%;
-            height: 100%;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-        }
-        /*.tile:nth-child(1) {*/
-        /*    background-image: url("./Wood_Bridge-1.png");*/
-        /*    background-position: center;*/
-        /*    background-repeat: no-repeat;*/
-        /*    background-size: cover;*/
-        /*}*/
-
-        /*.tile:nth-child(22) {*/
-        /*    background-image: url("./Wood_Bridge-2.png");*/
-        /*    background-position: center;*/
-        /*    background-repeat: no-repeat;*/
-        /*    background-size: cover;*/
-        /*}*/
-        /*.tile:nth-child(42) {*/
-        /*    background-image: url("./Wood_Bridge-2.png");*/
-        /*    background-position: center;*/
-        /*    background-repeat: no-repeat;*/
-        /*    background-size: cover;*/
-        /*}*/
-        /*.tile:nth-child(61) {*/
-        /*    background-image: url("./Wood_Bridge-3.png");*/
-        /*    background-position: center;*/
-        /*    background-repeat: no-repeat;*/
-        /*    background-size: cover;*/
-        /*}*/
-
-    </style>
-    <div class="world-grid">
-        <div dr-for-of="$range(1, (this.length ** 2) + 1)" class="tile">
-            #it#
-<!--            <div class="item" dr-style="{'background-image': 'url(\'Grass-'+#it#+'.png\')'}"></div>-->
-        </div>
-    </div>
 </div>
 <button dr-event-click="this.plus()">+</button>
 <button dr-event-click="this.minus()">-</button>
 <div id="items">
-    <span dr-for-of="this.items">
-        <img dr-attr="{src: #it#.url }">
-    </span>
+
 </div>
-<script src="./node_modules/dom-render/dist/bundle.js"></script>
+<script src="./libs/dom-render/dist/dist/bundle.js"></script>
 <script>
+
+    // setTimeout(() => {
+    //     data.name = 'modify name2';
+    //     data.size = 20;
+    // }, 1000);
+
     class Data {
         length = 24;
         size = 24;
@@ -132,20 +76,32 @@
             this.size--;
         }
     }
-    const target = document.querySelector('#app');
-    // console.log(DomRender.DomRender.run())
-    const data = DomRender.DomRender.run(new Data(), target);
-    data.name = 'modify name';
-    // setTimeout(() => {
-    //     data.name = 'modify name2';
-    //     data.size = 20;
-    // }, 1000);
+
 
 
     window.addEventListener('DOMContentLoaded', function(){
         fetch('https://petspaces.github.io/api/spaces/items.json').then(it => it.json()).then(it => {
-            data.items = Object.entries(it).map(([key, value]) => value).flat();
-            console.log(data);
+            const items = Object.entries(it).map(([key, value]) => value).flat().slice(0,1);
+            console.log();
+
+
+
+            const target = document.querySelector('#app');
+            // console.log(DomRender.DomRender.run())
+            console.time('start')
+            const oldData = new Data();
+            // oldData.items = items;
+            const data = DomRender.run(oldData, target);
+            // data.items = items;
+            // console.log('items', data);
+            console.timeEnd('start')
+            setTimeout(() => {
+                // data.name = 'modify name';
+                // console.log('items', data.items);
+                // data.items[0].url = 'https://petspaces.github.io/spaces/images/Basic_Grass_Biom_things_3.png'
+            },5000)
+
+
             // const items = document.querySelector('#items');
             // for (let i = 0; i < it.length; i++) {
             //     const item = document.createElement('div');
