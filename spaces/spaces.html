@@ -54,7 +54,7 @@
 <button dr-event-click="this.plus()">+</button>
 <button dr-event-click="this.minus()">-</button>
 <div id="items">
-
+        <img dr-for-of="this.items" dr-attr="{src: #nearForOfIt#.url}">
 </div>
 <script src="./libs/dom-render/dist/dist/bundle.js"></script>
 <script>
@@ -81,7 +81,7 @@
 
     window.addEventListener('DOMContentLoaded', function(){
         fetch('https://petspaces.github.io/api/spaces/items.json').then(it => it.json()).then(it => {
-            const items = Object.entries(it).map(([key, value]) => value).flat().slice(0,1);
+            const items = Object.entries(it).map(([key, value]) => value).flat();//.slice(0,3);
             console.log();
 
 
@@ -92,8 +92,8 @@
             const oldData = new Data();
             // oldData.items = items;
             const data = DomRender.run(oldData, target);
-            // data.items = items;
-            // console.log('items', data);
+            data.items = items;
+            console.log('items', data);
             console.timeEnd('start')
             setTimeout(() => {
                 // data.name = 'modify name';
