@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
     <title>Title</title>
 </head>
 <style>
@@ -10,6 +10,7 @@
         margin: 0;
         padding: 0;
     }
+
     .container {
         width: 50vw;
         height: 50vw;
@@ -48,13 +49,56 @@
     }
 </style>
 <body id="app">
-<div class="container">
+<style>
+    .world-grid {
+        width: 100%;
+        height: 100%;
+        /*border: 1px solid pink;*/
+        display: grid;
+        grid-template-columns: repeat(${this.size}$, 1fr);
+        grid-template-rows: repeat(${this.size}$, 1fr);
+        /*grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;*/
+        grid-gap: 0px;
+        /*border: 1px solid black;*/
+        /*grid-auto-rows: minmax(12.4%, auto);*/
 
+    }
+
+    .tile {
+        border: 1px solid black;
+        display: inline-block;
+        position: relative;
+        /*width: 30%;*/
+        /*height: 100px;*/
+    }
+    .tile > .item {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        /*background-position: center;*/
+        /*background-repeat: no-repeat;*/
+        /*background-size: cover;*/
+    }
+</style>
+
+<div class="container">
+    <div class="world-grid">
+        <div dr-for-of="this.myItems" dr-event-click="this.insertItem(#nearForOfIt#)" class="tile">
+            <img dr-for-of="#it#?.items" dr-attr="{src: #nearForOfIt#.url}" class="item">
+        </div>
+    </div>
+</div>
+<div dr-if="this.selectedItem">
+    <img dr-attr="{src: this.selectedItem.url}" >
 </div>
 <button dr-event-click="this.plus()">+</button>
 <button dr-event-click="this.minus()">-</button>
 <div id="items">
-        <img dr-for-of="this.items" dr-attr="{src: #nearForOfIt#.url}">
+    <span dr-for-of="this.items" dr-event-click="this.setItem(#nearForOfIt#);">
+        <img dr-attr="{src: #it#.url}" >
+    </span>
 </div>
 <script src="./libs/dom-render/dist/dist/bundle.js"></script>
 <script>
@@ -65,25 +109,48 @@
     // }, 1000);
 
     class Data {
-        length = 24;
-        size = 24;
+        length = 5;
+        size = 5;
         name = 'my name is dom-render'
         items = [];
+        // myItems = new Array(this.size ** 2).fill({items: []});
+        myItems;
+        selectedItem = undefined;
+
+        constructor() {
+            this.myItems = new Array(this.size ** 2).fill(undefined);
+            this.myItems.forEach((item, index) => {
+                // this.myItems[index] = {items: [{url: 'https://petspaces.github.io/spaces/images/62fu0x.gif'}]};
+                this.myItems[index] = {items: []};
+            });
+            console.log('------>', this.myItems)
+        }
+
+        setItem(item) {
+            this.selectedItem = item;
+        }
+        insertItem(myItem) {
+            myItem.items.push(this.selectedItem)
+            console.log(myItem);
+            // if(!myItem.items) {
+            //     myItem.items = [];
+            // }
+            // myItem.items.push(this.selectedItem)
+        }
         plus() {
             this.size++;
         }
+
         minus() {
             this.size--;
         }
     }
 
 
-
-    window.addEventListener('DOMContentLoaded', function(){
+    window.addEventListener('DOMContentLoaded', function () {
         fetch('https://petspaces.github.io/api/spaces/items.json').then(it => it.json()).then(it => {
             const items = Object.entries(it).map(([key, value]) => value).flat();//.slice(0,3);
             console.log();
-
 
 
             const target = document.querySelector('#app');
@@ -99,7 +166,7 @@
                 // data.name = 'modify name';
                 // console.log('items', data.items);
                 // data.items[0].url = 'https://petspaces.github.io/spaces/images/Basic_Grass_Biom_things_3.png'
-            },5000)
+            }, 5000)
 
 
             // const items = document.querySelector('#items');
