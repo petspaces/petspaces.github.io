@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .clip {
+            position: absolute;
+            clip: rect(0px, 16px, 16px, 0px);
+            /*top: -16px;*/
+            /*left: -16px;*/
+            /*border: 1px solid #000;*/
+        }
+        /*.clip {*/
+        /*    position: absolute;*/
+        /*    clip: rect(16px, 32px, 32px, 16px);*/
+        /*    top: -16px;*/
+        /*    left: -16px;*/
+        /*    border: 1px solid #000;*/
+        /*}*/
+    </style>
+</head>
+<body id="app">
+    asd
+    <div style="position: relative; border: 1px solid chocolate; width:16px; height: 16px">
+        <img src="images/full/SproutLands-Sprites-Basicpack/Tilesets/Hills.png" style="position: absolute; clip: rect(0px, 16px, 16px, 0px)">
+<!--        <div style="overflow: hidden"></div>-->
+    </div>
+    <div style="position: relative; border: 1px solid red; width:16px; height: 16px">
+        <img src="images/full/SproutLands-Sprites-Basicpack/Tilesets/Hills.png" style="position: absolute; clip: rect(16px, 32px, 32px, 16px)">
+<!--        <div style="overflow: hidden"></div>-->
+    </div>
+
+    asd
+
+<!--    <img src="images/full/SproutLands-Sprites-Basicpack/Tilesets/Hills.png">-->
+<!--    <div dr-for-of="this.images">-->
+<!--        <h1>${#it#.name}$</h1>-->
+<!--        <div>-->
+<!--            <span dr-for-of="$range(0, #it#.widthCnt * #it#.heightCnt)" dr-var="superIt = #it#">-->
+<!--&lt;!&ndash;                idex:${#it#}$,  [${(#it# * $var.superIt.widthSize) % $var.superIt.width}$], [${(#it# * $var.superIt.heightSize) % $var.superIt.height}$, ${(#it# * $var.superIt.heightSize) / $var.superIt.height}$]&ndash;&gt;-->
+<!--&lt;!&ndash;                ]&ndash;&gt;-->
+<!--&lt;!&ndash;                ${(#it# * $var.superIt.widthSize) % $var.superIt.width}$&ndash;&gt;-->
+<!--                <br>-->
+<!--                <img dr-attr="{src: $var.superIt.src}" style="position: absolute" dr-style="{clip: 'rect('+ (#it# * $var.superIt.widthSize) % $var.superIt.width + 'px, 16px, 16px, 0px)'}">-->
+<!--            </span>-->
+<!--        </div>-->
+<!--        <div>-->
+<!--&lt;!&ndash;            <img dr-attr="{src: #it#.src}" style="position: absolute; clip: rect(0px, 16px, 16px, 0px)">&ndash;&gt;-->
+<!--&lt;!&ndash;            <img dr-attr="{src: #it#.src}" style="position: absolute; clip: rect(0px, 16px, 16px, 0px)">&ndash;&gt;-->
+<!--&lt;!&ndash;            <img dr-attr="{src: #it#.src}" style="position: absolute; clip-path: inset(0px, 16px, 16px, 0px)">&ndash;&gt;-->
+<!--        </div>-->
+<!--        <br>-->
+<!--        <br>-->
+<!--        <br>-->
+<!--        <br>-->
+<!--        <br>-->
+<!--        <br>-->
+<!--        <br>-->
+<!--        <br>-->
+<!--        <div>-->
+<!--            <img dr-attr="{src: #it#.src}">-->
+<!--        </div>-->
+<!--    </div>-->
+
+    <script src="./libs/dom-render/dist/dist/bundle.js"></script>
+    <script>
+        class Data {
+            images = [
+                {
+                    name: 'Hills',
+                    src: 'images/full/SproutLands-Sprites-Basicpack/Tilesets/Hills.png',
+                    // clips: [{x: 0, y: 0, w: 16, h: 16}],
+                    widthCnt: 6,
+                    heightCnt: 6,
+                    width: 96,
+                    height: 96,
+                    widthSize: 96 / 6,
+                    heightSize: 96 / 6,
+                }
+            ]
+        }
+        const data = DomRender.run(new Data(), document.querySelector('#app'));
+    </script>
+</body>
+</html>
