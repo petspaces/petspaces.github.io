@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+    </style>
+</head>
+<body id="app">
+
+    <div dr-for-of="this.images">
+        ${#it#.name}$
+    </div>
+    <script src="./libs/dom-render/dist/dist/bundle.js"></script>
+    <script>
+        class Data {
+            images = [{name: 'Hills'}]
+        }
+        const data = DomRender.run(new Data(), document.querySelector('#app'));
+        setTimeout(() => {
+            data.images.push({name: 'ss'})
+        // //     console.log('push-->', data.images.length)
+        }, 1000);
+        setTimeout(() => {
+            // console.log('-----change Data image name')
+            // data.images[0].name = 'gogoogogoggo'
+            // console.log('-----change Data image name after', data, data.images)
+            // // data.images = [];
+            // data.images.pop();
+            // console.log('pop-->', data.images.length)
+        }, 3000);
+
+        setTimeout(() => {
+            // data.images[0].name = 'zzzzzzzzzzz'
+            // //     console.log('push-->', data.images.length)
+        }, 5000);
+    </script>
+</body>
+</html>
