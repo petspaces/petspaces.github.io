@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <title>Title</title>
+</head>
+<style>
+    html, body {
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        width: 100vw;
+        height: 100vw;
+        border: 1px solid black;
+
+        overflow: auto;
+        /*display: flex;*/
+        /*flex-direction: column;*/
+        /*justify-content: center;*/
+        /*align-items: center;*/
+    }
+
+
+    /*.tile:nth-child(15) {*/
+    /*    background-color: yellow;*/
+    /*    animation-name: goto;*/
+    /*    animation-duration: 2s;*/
+    /*    animation-delay: 0s;*/
+    /*    animation-iteration-count: infinite;*/
+    /*    animation-timing-function: ease;*/
+
+    /*}*/
+    /*.tile:nth-child(5) {*/
+    /*    grid-column: 2 ;*/
+    /*    grid-row: 3;*/
+    /*    background-color: red;*/
+    /*}*/
+
+    @keyframes goto {
+        0% {
+            transform: translate(0px, 0px);
+        }
+        100% {
+            transform: translate(100%, 100%);
+        }
+    }
+</style>
+<body id="app">
+<style>
+    .world-grid {
+        width: 100%;
+        height: 100%;
+        /*border: 1px solid pink;*/
+        display: grid;
+        grid-template-columns: repeat(32, 1fr);
+        grid-template-rows: repeat(32, 1fr);
+        /*grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;*/
+        grid-gap: 0px;
+        /*border: 1px solid black;*/
+        /*grid-auto-rows: minmax(12.4%, auto);*/
+
+    }
+
+    .tile {
+        border: 1px solid black;
+        display: inline-block;
+        position: relative;
+        /*width: 30%;*/
+        /*height: 100px;*/
+    }
+    .tile > .item {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        /*background-position: center;*/
+        /*background-repeat: no-repeat;*/
+        /*background-size: cover;*/
+    }
+</style>
+
+<div class="container">
+    <div class="world-grid">
+        <div dr-for-of="this.myItems" dr-event-click="this.insertItem(#nearForOfIt#)" class="tile">
+            <div dr-if="#index# % 100 === 0 "> 1 </div>
+        </div>
+    </div>
+</div>
+<!--<div dr-if="this.selectedItem">-->
+<!--    <img dr-attr="{src: this.selectedItem.url}" >-->
+<!--</div>-->
+<!--<button dr-event-click="this.plus()">+</button>-->
+<!--<button dr-event-click="this.minus()">-</button>-->
+<!--<div id="items">-->
+<!--    <span dr-for-of="this.items" dr-event-click="this.setItem(#nearForOfIt#);">-->
+<!--        <img dr-attr="{src: #it#.url}" >-->
+<!--    </span>-->
+<!--</div>-->
+<script src="./libs/dom-render/dist/dist/bundle.js"></script>
+<script>
+
+    // setTimeout(() => {
+    //     data.name = 'modify name2';
+    //     data.size = 20;
+    // }, 1000);
+
+    class Data {
+        // length = 5;
+        size = 32;
+        name = 'my name is dom-render'
+        items = [];
+        // myItems = new Array(this.size ** 2).fill({items: []});
+        myItems;
+        selectedItem = undefined;
+
+        constructor() {
+            this.myItems = new Array(this.size ** 2).fill(undefined);
+            this.myItems.forEach((item, index) => {
+                // this.myItems[index] = {items: [{url: 'https://petspaces.github.io/spaces/images/62fu0x.gif'}]};
+                // this.myItems[index] = {items: []};
+            });
+            console.log('------>', this.myItems)
+        }
+
+        setItem(item) {
+            this.selectedItem = item;
+        }
+        insertItem(myItem) {
+            myItem.items.push(this.selectedItem)
+            console.log(myItem);
+            // if(!myItem.items) {
+            //     myItem.items = [];
+            // }
+            // myItem.items.push(this.selectedItem)
+        }
+        plus() {
+            this.size++;
+        }
+
+        minus() {
+            this.size--;
+        }
+    }
+
+
+    window.addEventListener('DOMContentLoaded', () => {
+        const target = document.querySelector('#app');
+        // console.log(DomRender.DomRender.run())
+        console.time('start')
+        const oldData = new Data();
+        // oldData.items = items;
+        const data = DomRender.run(oldData, target);
+        console.timeEnd('start')
+    });
+
+</script>
+</body>
+</html>
